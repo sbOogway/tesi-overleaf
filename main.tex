@@ -9,7 +9,7 @@
 \usepackage[english,italian]{babel} % Lingua principale italiano, con parti in inglese
 \usepackage{blindtext} % Per la generazione di paragrafi lorem ipsum
 \usepackage{graphicx} % Per includere immagini esterne
-\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=3cm]{geometry} %impaginazione e margini documento
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2cm,right=2cm]{geometry} %impaginazione e margini documento
 \usepackage[fontsize=13pt]{scrextend} %dimensione font
 \usepackage{graphicx}
 \usepackage[parfill]{parskip} % Disabilita l'indentazione dopo essere andati a capo
@@ -27,6 +27,13 @@
 \usepackage[justification=centering]{caption} % Per centrare le captions
 \usepackage{csquotes} % Dipendenza di babel
 \usepackage[bottom]{footmisc} % Posiziona le footnotes alla fine della pagina
+\usepackage{mdframed}
+
+
+% \surroundwithmdframed{minted} 
+
+% \usemintedstyle{fruity} 
+\setminted{fontsize=\footnotesize,frame=single}
 
 % ------------------------
 % ---- DOCUMENT SETUP ----
@@ -35,7 +42,9 @@
 \raggedbottom % Se la pagina non è completa, lascia lo spazio alla fine
 
 \titleformat{\chapter}[display]
-    {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{10pt}{\LARGE}
+    % {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{10pt}{\LARGE}
+    {\normalfont\huge\bfseries}{}{-75pt}{\LARGE}
+    
 \titlespacing*{\chapter}{0pt}{0pt}{20pt}
 \chaptertitlefont{\fontsize{22pt}{30pt}\selectfont}
 
@@ -65,7 +74,7 @@
 \begin{document} % Inizio documento
 \pagenumbering{gobble} % Disabilita numerazione pagine
 \input{Frontespizio.tex} % PAGINA FRONTESPIZIO
-\input{Dedica} % PAGINA DEDICA
+% \input{Dedica} % PAGINA DEDICA
 \tableofcontents  % Genera l'indice
 \newpage % Nuova pagna
 \pagenumbering{arabic} % Riabilita la numerazione in modo che cominci dal primo capitolo
@@ -74,7 +83,9 @@
 % ---- CHAPTERS ----
 % ------------------
 \input{Capitoli/Introduzione}
-\blinddocument % Genera paragrafi e contenuti placeholder
+\input{Capitoli/Control}
+\input{Capitoli/EmbeddedLinux}
+% \blinddocument % Genera paragrafi e contenuti placeholder
 \input{Capitoli/Conclusione}
 
 % ----------------------
