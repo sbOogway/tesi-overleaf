@@ -1,7 +1,7 @@
 \chapter{Control}
 
 \section{Graphical User Interface}
-Per controllare la temperatura della camera di collaudo, l'operatore imposta la temperatura target tramite un display touchscreen """NOME DISPLAY""". L'interfaccia grafica è sviluppata tramite la libreria LVGL \cite{LVGL}ed è stato utilizzato un template\cite{LVGL_LINUX} contenente il porting su linux fornito dagli sviluppatori della libreria per la realizzazione. 
+Per controllare la temperatura della camera di collaudo, l'operatore imposta la temperatura target mediante un display touchscreen "NOME DISPLAY". L'interfaccia grafica è sviluppata utilizzando la libreria LVGL \cite{LVGL} e si è utilizzato un template \cite{LVGL_LINUX} contenente il porting su Linux fornito dagli sviluppatori della libreria. 
 
 \begin{table}[H]
 \begin{minted}{C}
@@ -36,7 +36,7 @@ static void decrement_temperature(lv_event_t * e)
     );
 }
 \end{minted}
-\caption{callback functions in \texttt{main} loop of lvgl gui}
+\caption{Funzioni di callback nel ciclo principale della GUI LVGL}
 \end{table}
 
 
@@ -94,18 +94,18 @@ lv_obj_align(target_temperature_label, LV_ALIGN_CENTER, 0, 0);
 
 \end{minted}
 
-\caption{widget tree in \texttt{main} loop }
+\caption{Albero dei widget nel ciclo principale}
 \end{table}
 
-Le backend utilizzate da LVGL per l'I/O sono state libevdev e framebuffer device. Sono state scelte per la loro semplicitá e il loro scarso uso di risorse.
+I backend utilizzati da LVGL per l'I/O sono libevdev e il framebuffer device. Sono stati scelti per la loro semplicità e il ridotto utilizzo di risorse.
 
-Libevdev\cite{libevdev} é una libreria che si occupa di gestire gli eventi di input: si occupa di  ricevere i tocchi dal touchscreen e poi di passarli all'interfaccia grafica.
+Libevdev \cite{libevdev} è una libreria che gestisce gli eventi di input: riceve i tocchi dal touchscreen e li passa all'interfaccia grafica.
 
-Il framebuffer device è semplicemente il file \texttt{/dev/fb0} che viene letto dal touch screen e contiene il colore di ciascun pixel sullo schermo. 
+Il framebuffer device è semplicemente il file \texttt{/dev/fb0}, letto dal touchscreen, che contiene il colore di ciascun pixel dello schermo.
 
 \subsection{Compilazione della GUI}
 
-Per la compilazione dell'applicazione, abbiamo bisogno di una toolchain adatta per l'architettura arm. Nel nostro caso ci affidiamo al compilatore e alle librerie installate da buildroot \autoref{EmbeddedLinux:Buildroot}. 
+Per la compilazione dell'applicazione è necessaria una toolchain adatta all'architettura ARM. Nel nostro caso, ci affidiamo al compilatore e alle librerie fornite da Buildroot \autoref{EmbeddedLinux:Buildroot}. 
 
 
 \begin{table}[H]
@@ -126,9 +126,9 @@ set(BUILD_SHARED_LIBS ON)
 \end{table}
 
 
-Con il comando \texttt{cmake -DCMAKE\_TOOLCHAIN\_FILE=./cross\_compile\_setup.cmake -B build -S .} vengono generati i makefile necessari per la cross-compilazione che vengono poi invocati con \texttt{make  -C build -j}. 
+Il comando \texttt{cmake -DCMAKE\_TOOLCHAIN\_FILE=./cross\_compile\_setup.cmake -B build -S .} genera i Makefile necessari per la cross-compilazione, che vengono poi eseguiti con \texttt{make -C build -j}.
 
-LVGL viene compilata in una shared library e l'applicazione in un eseguibile.
+LVGL viene compilata come libreria condivisa, mentre l'applicazione come eseguibile.
 
 \begin{figure}[H]
     \centering

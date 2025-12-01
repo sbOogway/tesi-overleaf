@@ -75,29 +75,29 @@
 
 
 \section{Hardware}
-La scheda utilizzata per il sistema embedded è sviluppata da AMEL ed è composta da:
+La scheda utilizzata per il sistema embedded è sviluppata da AMEL e comprende:
 \begin{itemize}
-    \item una host-board Ganador (rev.4)
-    \item un system-on-module Vulcano-A5
-    \item una cpu ARM.
-    \item una memoria SD usata come disco fisso.
-    \item un interfaccia ethernet.
-    \item un interfaccia seriale.
+    \item una host-board Ganador (rev. 4);
+    \item un system-on-module Vulcano-A5;
+    \item una CPU ARM;
+    \item una memoria SD utilizzata come disco fisso;
+    \item un'interfaccia Ethernet;
+    \item un'interfaccia seriale;
     \item un display touchscreen.
 \end{itemize}
 
-\section{Building the system}
-Per orchestrare il sistema è stato utilizzato Linux. È stato creato un kernel ad hoc con solo i moduli essenziali per il funzionamento a causa delle limitate risorse hardware. Il tool utilizzato per completare l'opera è stato buildroot\cite{buildroot}. Esso è essenzialmente una lista di Makefile per installare e cross compilare tutte le librerie e pacchetti necessari per costruire e far girare il sistema. Si occupa inoltre di creare il filesystem e flasharlo in un'immagine pronta per essere scritta sulla scheda SD da inserire nel sistema embedded. 
+\section{Costruzione del sistema}
+Per orchestrare il sistema è stato utilizzato Linux. È stato creato un kernel personalizzato con soli i moduli essenziali per il funzionamento, data la limitatezza delle risorse hardware. Lo strumento utilizzato per completare l'opera è Buildroot \cite{buildroot}, che consiste essenzialmente in una serie di Makefile per installare e cross-compilare tutte le librerie e i pacchetti necessari alla costruzione e all'esecuzione del sistema. Inoltre, si occupa di creare il filesystem e di prepararlo in un'immagine pronta per essere scritta sulla scheda SD del sistema embedded.
 
-Per aggiungere l'interfaccia grafica creata con LVGL é stato necessario creare un nuovo package in buildroot
+Per aggiungere l'interfaccia grafica sviluppata con LVGL è stato necessario creare un nuovo pacchetto in Buildroot.
 
-All'avvio del sistema, il bootloader del chip avvia AT91bootstrap che a sua volta avvia barebox che a sua volta carica il kernel in memoria.
+All'avvio del sistema, il bootloader del chip attiva AT91bootstrap, che a sua volta avvia Barebox, il quale carica il kernel in memoria.
 
 \subsection{Installazione di un pacchetto in Buildroot}
 \label{EmbeddedLinux:Buildroot}
-Per aggiungere un pacchetto a buildroot è necessario aggiungere una nuova entry nella cartella \texttt{package} contenente un file \texttt{Config.in} ed un file \texttt{.mk}.
+Per aggiungere un pacchetto a Buildroot è necessario inserire una nuova voce nella cartella \texttt{package}, comprendente un file \texttt{Config.in} e un file \texttt{.mk}.
 
-Questi due file contengono le istruzioni che permettono a buildroot di risolvere dipendenze, scaricare ed installare il pacchetto nel filesystem del target device.
+Questi due file contengono le istruzioni che consentono a Buildroot di risolvere le dipendenze, scaricare e installare il pacchetto nel filesystem del dispositivo target.
 
 
 \newpage
@@ -130,13 +130,13 @@ $(eval $(generic-package))
 \caption{\texttt{amel-temp-control.mk}}
 \end{table}
 
-Inizialmente, viene clonata la repository temp-control, contenente la GUI, al commit specificato, inizializzando i submodules e verificando la presenza della dipendenze \texttt{libevdev}. 
+Inizialmente, viene clonata la repository temp-control, contenente la GUI, al commit specificato, inizializzando i sottomoduli e verificando la presenza della dipendenza \texttt{libevdev}.
 
-Successivamente, viene cross compilata la libreria LVGL e l'applicazione con interfaccia grafica con il compilatore arm installato nella macchina target.
+Successivamente, vengono cross-compilate la libreria LVGL e l'applicazione con interfaccia grafica utilizzando il compilatore ARM installato sulla macchina target.
 
-Infine, vengono installati i binari della libreria e l'eseguibile dell'app sulla macchina target.
+Infine, i binari della libreria e l'eseguibile dell'applicazione vengono installati sulla macchina target.
 
-Dopo aver fatto cio per tutti i pacchetti desisderati, il filesystem e l'immagine del kernel vengono scritti in un file \texttt{sdcard.img} pronto per essere flashato su una scheda sd e fatto partire sull'embedded device.
+Dopo aver ripetuto questo processo per tutti i pacchetti desiderati, il filesystem e l'immagine del kernel vengono assemblati in un file \texttt{sdcard.img} pronto per essere scritto su una scheda SD e avviato sul dispositivo embedded.
 
 
 \section{File I/O}
