@@ -132,7 +132,7 @@ $(eval $(generic-package))
 
 Inizialmente, viene clonata la repository temp-control, contenente la GUI, al commit specificato, inizializzando i sottomoduli e verificando la presenza della dipendenza \texttt{libevdev}.
 
-Successivamente, vengono cross-compilate la libreria LVGL e l'applicazione con interfaccia grafica utilizzando il compilatore ARM installato sulla macchina target.
+Successivamente, vengono cross-compilate la libreria LVGL e l'applicazione con interfaccia grafica utilizzando il compilatore ARM fornito da Buildroot.
 
 Infine, i binari della libreria e l'eseguibile dell'applicazione vengono installati sulla macchina target.
 
