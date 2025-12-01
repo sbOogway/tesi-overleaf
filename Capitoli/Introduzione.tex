@@ -1,0 +1,43 @@
+\chapter{Introduzione}
+\section{Abstract}
+La camera di collaudo si trova presso AMEL s.r.l. ed è utilizzata per testare dei carichi resistivi. Essi producono calore ed è necessario raffreddare l'ambiente, sopratutto nei mesi più caldi.
+
+Il sistema embedded si occupa di controllare la frequenza di una ventola di raffreddamento tramite un controllo PID:
+\begin{enumerate}
+    \item Viene letta la temperatura nella stanza tramite un sensore
+    \item Essa viene utilizzata come input del sistema PID 
+    \item L'equazione PID restituisce in output la tensione da mandare ad un inverter che a sua volta restituisce in output la frequenza della ventola considerando l'errore attuale (azione proporzionale) e quello passato (azione integrativa).
+    \item Questo sistema di retroazione negativa viene continuamente attuato per mantenere costante la temperatura nella stanza.
+\end{enumerate}
+
+La comunicazione tra l'inverter e il sistema embedded è effettuata tramite il protocollo MODBUS RTU.
+
+Il sistema embedded si occupa inoltre di fornire un interfaccia per regolare la temperatura target della stanza tramite display touchscreen. La GUI è programmata con la libreria LVGL.
+
+Il sistema embedded è collegato alla rete aziendale tramite ethernet e tramite un web server sara possibile regolare la temperatura target anche da remoto.
+
+La comunicazione tra sistema embedded e web server avviene attraverso scrittura su file/IPC.
+
+E ancora da valutare se verra utilizzato un database per loggare la temperatura nel tempo. Nel caso il web server si occupera di interagire con esso.
+
+
+\newpage
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=21cm, angle=90]{Immagini/system-uml.drawio.png}  
+    \caption{Diagramma UML che illustra il sistema}
+\end{figure}
+
+\newpage 
+
+\section{Struttura del codice sorgente}
+Il codice sorgente del progetto è pubblicato su Github\cite{root}. Questa repository è composta da più submodules:
+
+\begin{itemize}
+    \item tesi-gui \cite{GUI}
+    \item tesi-overleaf \cite{LaTeX_Source}
+    \item tesi-modbus \cite{}
+\end{itemize}
+
+È stato utilizzato questo pattern per garantire modularità ed organizzazione del software\cite{git_submodules}.

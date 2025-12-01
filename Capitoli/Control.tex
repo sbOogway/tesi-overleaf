@@ -1,0 +1,144 @@
+\chapter{Control}
+
+\section{Graphical User Interface}
+Per controllare la temperatura della camera di collaudo, l'operatore imposta la temperatura target tramite un display touchscreen """NOME DISPLAY""". L'interfaccia grafica è sviluppata tramite la libreria LVGL \cite{LVGL}ed è stato utilizzato un template\cite{LVGL_LINUX} contenente il porting su linux fornito dagli sviluppatori della libreria per la realizzazione. 
+
+\begin{table}[H]
+\begin{minted}{C}
+// TODO CHANGEME READ THIS FROM A FILE
+static float target_temperature = read_temperature_file(); 
+lv_obj_t * screen;
+lv_obj_t * target_temperature_label;
+
+const int padding_button = 50;
+const int height_button  = 50;
+const int width_button   = 50;
+
+static void increment_temperature(lv_event_t * e)
+{
+    if(lv_event_get_code(e) != LV_EVENT_CLICKED) {
+        return;
+    }
+    target_temperature++;
+    lv_label_set_text_fmt(
+        target_temperature_label, "%.1f°C", target_temperature
+    );
+}
+
+static void decrement_temperature(lv_event_t * e)
+{
+    if(lv_event_get_code(e) != LV_EVENT_CLICKED) {
+        return;
+    }
+    target_temperature--;
+    lv_label_set_text_fmt(
+        target_temperature_label, "%.1f°C", target_temperature
+    );
+}
+\end{minted}
+\caption{callback functions in \texttt{main} loop of lvgl gui}
+\end{table}
+
+
+\begin{table}[H]
+\begin{minted}{C}
+screen = lv_scr_act();
+lv_obj_t * increment_temperature_button = lv_btn_create(screen);
+lv_obj_align(
+    increment_temperature_button, LV_ALIGN_BOTTOM_RIGHT, 
+    -padding_button, -padding_button);
+lv_obj_set_height(increment_temperature_button, height_button);
+lv_obj_set_width(increment_temperature_button, width_button);
+lv_obj_add_event_cb(
+    increment_temperature_button, increment_temperature, 
+    LV_EVENT_ALL, NULL
+);
+
+lv_obj_t * increment_temperature_label = lv_label_create(
+    increment_temperature_button
+);
+lv_label_set_text(increment_temperature_label, "+");
+lv_obj_set_style_text_font(
+    increment_temperature_label, &lv_font_montserrat_48, 0
+);
+lv_obj_center(increment_temperature_label);
+
+lv_obj_t * decrement_temperature_button = lv_btn_create(screen);
+lv_obj_align(
+    decrement_temperature_button, LV_ALIGN_BOTTOM_LEFT, 
+    padding_button, -padding_button);
+lv_obj_set_height(decrement_temperature_button, height_button);
+lv_obj_set_width(decrement_temperature_button, width_button);
+lv_obj_add_event_cb(
+    decrement_temperature_button, decrement_temperature, 
+    LV_EVENT_ALL, NULL
+);
+
+lv_obj_t * decrement_temperature_label = lv_label_create(
+    decrement_temperature_button
+    );
+lv_label_set_text(decrement_temperature_label, "-");
+lv_obj_set_style_text_font(
+    decrement_temperature_label, &lv_font_montserrat_48, 0
+);
+lv_obj_center(decrement_temperature_label);
+
+target_temperature_label = lv_label_create(screen);
+lv_label_set_text_fmt(
+    target_temperature_label, "%.1f°C", target_temperature
+);
+lv_obj_set_style_text_font(
+    target_temperature_label, &lv_font_montserrat_48, 0
+);
+lv_obj_align(target_temperature_label, LV_ALIGN_CENTER, 0, 0);
+
+\end{minted}
+
+\caption{widget tree in \texttt{main} loop }
+\end{table}
+
+Le backend utilizzate da LVGL per l'I/O sono state libevdev e framebuffer device. Sono state scelte per la loro semplicitá e il loro scarso uso di risorse.
+
+Libevdev\cite{libevdev} é una libreria che si occupa di gestire gli eventi di input: si occupa di  ricevere i tocchi dal touchscreen e poi di passarli all'interfaccia grafica.
+
+Il framebuffer device è semplicemente il file \texttt{/dev/fb0} che viene letto dal touch screen e contiene il colore di ciascun pixel sullo schermo. 
+
+\subsection{Compilazione della GUI}
+
+Per la compilazione dell'applicazione, abbiamo bisogno di una toolchain adatta per l'architettura arm. Nel nostro caso ci affidiamo al compilatore e alle librerie installate da buildroot \autoref{EmbeddedLinux:Buildroot}. 
+
+
+\begin{table}[H]
+\begin{minted}[fontsize=\small]{C}
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+
+set(tools ~/buildroot/output/host/bin/arm-buildroot-linux-gnueabihf-)
+set(CMAKE_C_COMPILER ${tools}gcc)
+set(CMAKE_CXX_COMPILER ${tools}g++)
+
+set(EVDEV_INCLUDE_DIRS ~/buildroot/output/staging/usr/include/libevdev/)
+set(EVDEV_LIBRARIES ~/buildroot/output/staging/usr/lib/libevdev.so)
+
+set(BUILD_SHARED_LIBS ON)    
+\end{minted}
+\caption{\texttt{cross\_compile\_setup.cmake}}
+\end{table}
+
+
+Con il comando \texttt{cmake -DCMAKE\_TOOLCHAIN\_FILE=./cross\_compile\_setup.cmake -B build -S .} vengono generati i makefile necessari per la cross-compilazione che vengono poi invocati con \texttt{make  -C build -j}. 
+
+LVGL viene compilata in una shared library e l'applicazione in un eseguibile.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=15cm]{Immagini/lvgl-gui.png}  
+    \caption{Interfaccia grafica per il controllo della temperatura}
+\end{figure}
+
+
+
+
+\section{Admin Control}
+
+\section{Logging and Monitoring}
