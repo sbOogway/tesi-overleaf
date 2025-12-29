@@ -109,7 +109,7 @@
             <mxPoint x="140" y="180" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="0mgIGl8Zf28Sz4MaVCk9-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div align=&quot;left&quot;&gt;&lt;font face=&quot;Lucida Console&quot; style=&quot;font-size: 20px;&quot;&gt;Sensore di temperatura&lt;/font&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="0mgIGl8Zf28Sz4MaVCk9-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;fontFamily=Lucida Console;" value="&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot; face=&quot;Lucida Console&quot;&gt;Sensore di temperatura&lt;/font&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="140" x="180" y="100" as="geometry" />
         </mxCell>
         <mxCell id="0mgIGl8Zf28Sz4MaVCk9-8" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;rounded=0;" value="">
